@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const INITIAL__STATE = 
 {
     data: {},
-    receipt: false
+    showReceipt: false
 }
 
 const dataSlice = createSlice({
@@ -16,7 +16,7 @@ const dataSlice = createSlice({
         },
         showReceipt(state)
         {
-            state.receipt = true
+            state.showReceipt = true
         }
     }
 });

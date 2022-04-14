@@ -10,7 +10,7 @@ import Receipt from './components/Receipt'
 const App = () => 
 {
   const classes = useStyles()
-  const showReceipt = useSelector(state => state.user.receipt)
+  const showReceipt = useSelector(state => state.user.showReceipt)
 
     return (
         <Grid container spacing={2} className={classes.appGrid}>

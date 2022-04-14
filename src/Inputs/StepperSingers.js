@@ -6,6 +6,7 @@ import { singersData } from './Schema';
 import { albumsActions } from '../store/albumsSlice';
 import { songsActions } from '../store/songsSlice';
 import CheckboxCard from './CheckboxCard';
+import UserInformation from '../components/UserInformation';
 
 const StepperSingers = () => 
 {
@@ -17,7 +18,8 @@ const StepperSingers = () =>
     const songs = useSelector(state => state.songs.songs)
     const dispatch = useDispatch();
 
-    const steps = ['Select Singers', 'Select Albums', 'Select Songs', "Enter user data and submit the request."];
+    const steps = ['Select Singers', 'Select Albums', 'Select Songs', "User Data"];
+    const hints = ["Select at least one Singer", "Select at least one Album", "Select at least a Song", "Enter your information"]
 
     // get all albums for rendering
     useEffect(() =>
@@ -84,12 +86,12 @@ const StepperSingers = () =>
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
-                        {(activeStep === steps.length - 1) ? (
-                            <p>hello</p>
-                        ) : (
-                            <React.Fragment>
-                                <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                        <React.Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    {/* Step {activeStep + 1} */}
+                                    {hints[activeStep]}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', py: 2 }}>
                                     <Button
                                         color="inherit"
                                         disabled={activeStep === 0}
@@ -100,18 +102,26 @@ const StepperSingers = () =>
                                     </Button>
                                     {/* <Box sx={{ flex: '1 1 auto' }} /> */}
 
-                                    <Button 
+                                    {/* <Button 
                                         onClick={handleNext} 
                                         disabled={(activeStep === 0 && singersIDs.length === 0) || 
                                                     (activeStep === 1 && albumsIDs.length === 0) ||
                                                     (activeStep === 2 && songsIDs.length === 0)}
                                     >
                                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                    </Button>
+                                    </Button> */}
+                                    {(activeStep < steps.length - 1) && (
+                                        <Button 
+                                            onClick={handleNext} 
+                                            disabled={(activeStep === 0 && singersIDs.length === 0) || 
+                                                        (activeStep === 1 && albumsIDs.length === 0) ||
+                                                        (activeStep === 2 && songsIDs.length === 0)}
+                                        >
+                                            Next
+                                        </Button>
+                                    )}
                                 </Box>
                             </React.Fragment>
-
-                        )}
                     </React.Fragment>
                 )}
             </Box>
@@ -123,6 +133,11 @@ const StepperSingers = () =>
             )}
             {activeStep === 2 && (
                 <CheckboxCard jsonObject={songs} activeStep={activeStep}/>
+            )}
+            {activeStep === 3 && (
+                <>
+                    <UserInformation />
+                </>
             )}
         </React.Fragment>
     )

@@ -12,6 +12,7 @@ const CheckboxCard = ({jsonObject, activeStep}) =>
                     id={item.id} 
                     key={item.id}
                     price={item.price}
+                    item={item}
                 />
             ))}
         </React.Fragment>

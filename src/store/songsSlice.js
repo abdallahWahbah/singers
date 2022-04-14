@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const INITIAL__STATE = 
 {
     ids:[],
-    songs: []
+    songs: [],
+    selectedSongs: []
 }
 
 const songsSlice = createSlice({
@@ -17,17 +18,24 @@ const songsSlice = createSlice({
         removeSongId(state, action)
         {
             const newIDs = state.ids.filter(item => item !== action.payload)
-            console.log(newIDs)
             state.ids = newIDs;
         },
         replaceSongsIDs(state, action)
         {
             state.ids = action.payload
         },
-        addSongs(state, action)
+        addSongs(state, action) // all songs including non-selected songs (for rendering the wizard)
         {
             const newSongs = action.payload;
             state.songs = newSongs;
+        },
+        addSelectedSong(state, action)
+        {
+            state.selectedSongs = [...state.selectedSongs, action.payload]
+        },
+        removeSelectedSong(state, action)
+        {
+            state.selectedSongs = state.selectedSongs.filter(item => item.id !== action.payload.id)
         }
     }
 });

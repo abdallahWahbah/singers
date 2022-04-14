@@ -16,8 +16,9 @@ const CheckboxForm = (props) =>
     const albumsIDs = useSelector(state => state.albums.ids);
     const songsIDs = useSelector(state => state.songs.ids);
     const albums = useSelector(state => state.albums.albums);
-
-    const handleChange = (event) =>
+    const selectedSongs = useSelector(state => state.songs.selectedSongs);
+    
+    const handleClick = (event) =>
     {
 
         if(event.target.checked === true)
@@ -33,6 +34,7 @@ const CheckboxForm = (props) =>
             else if (props.activeStep === 2) // songs step
             {
                 dispatch(songsActions.addSongId(props.id))
+                dispatch(songsActions.addSelectedSong(props.item))
 
                 dispatch(totalActions.increasePrice(props.price))
                 dispatch(totalActions.increaseAmount(1))
@@ -64,6 +66,7 @@ const CheckboxForm = (props) =>
             else if (props.activeStep === 2)
             {
                 dispatch(songsActions.removeSongId(props.id))
+                dispatch(songsActions.removeSelectedSong(props.item))
 
                 // (decrease song price and amount)
                 removeSongUI(props.price)
@@ -77,6 +80,7 @@ const CheckboxForm = (props) =>
         album.songs.forEach(song => 
         {
             if(songsIDs.includes(song.id)) removeSongUI(song.price, 1)
+            dispatch(songsActions.removeSelectedSong(song))
         })
 
         // get songs ids to be removed
@@ -99,7 +103,7 @@ const CheckboxForm = (props) =>
             <FormGroup>
                 <FormControlLabel
                     control={<Checkbox 
-                        onClick={handleChange} 
+                        onClick={handleClick} 
                         checked={isChecked()}    
                     />} 
                     label={props.label}
